@@ -4,7 +4,7 @@ export function login(email, password) {
   return fetch({
     url: '/user/login',
     method: 'post',
-    data: {
+    params: {
       email,
       password
     }

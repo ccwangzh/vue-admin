@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 const user = {
   state: {
-    token: Cookies.get('Admin-Token'),
+    token: Cookies.get('guess'),
     name: '',
     avatar: '',
     roles: []
@@ -28,10 +28,11 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       const email = userInfo.email.trim();
+      const password = userInfo.password;
       return new Promise((resolve, reject) => {
-        login(email, userInfo.password).then(response => {
+        login(email, password).then(response => {
           const data = response.data;
-          Cookies.set('Admin-Token', data.token);
+          Cookies.set('guess', data.token);
           commit('SET_TOKEN', data.token);
           resolve();
         }).catch(error => {
@@ -62,7 +63,7 @@ const user = {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '');
           commit('SET_ROLES', []);
-          Cookies.remove('Admin-Token');
+          Cookies.remove('guess');
           resolve();
         }).catch(error => {
           reject(error);
@@ -74,7 +75,7 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '');
-        Cookies.remove('Admin-Token');
+        Cookies.remove('guess');
         resolve();
       });
     }

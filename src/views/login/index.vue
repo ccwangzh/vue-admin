@@ -21,43 +21,39 @@
           登录
         </el-button>
       </el-form-item>
-      <div class='tips'>admin账号为:admin@wallstreetcn.com 密码随便填</div>
-      <div class='tips'>editor账号:editor@wallstreetcn.com 密码随便填</div>
     </el-form>
   </div>
 </template>
 
 <script>
-    import { isWscnEmail } from '@/utils/validate';
-
     export default {
       name: 'login',
       data() {
         const validateEmail = (rule, value, callback) => {
-          if (!isWscnEmail(value)) {
-            callback(new Error('请输入正确的合法邮箱'));
+          if (value.length < 1) {
+            callback(new Error('邮箱不能为空'));
           } else {
             callback();
           }
         };
-        const validatePass = (rule, value, callback) => {
-          if (value.length < 6) {
-            callback(new Error('密码不能小于6位'));
+        const validatePassword = (rule, value, callback) => {
+          if (value.length < 1) {
+            callback(new Error('密码不能为空'));
           } else {
             callback();
           }
         };
         return {
           loginForm: {
-            email: 'admin@wallstreetcn.com',
-            password: '111111'
+            email: 'ccwangzh@sina.com',
+            password: '123456'
           },
           loginRules: {
             email: [
                 { required: true, trigger: 'blur', validator: validateEmail }
             ],
             password: [
-                { required: true, trigger: 'blur', validator: validatePass }
+                { required: true, trigger: 'blur', validator: validatePassword }
             ]
           },
           loading: false
