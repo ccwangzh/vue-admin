@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 const user = {
   state: {
-    token: Cookies.get('guess'),
+    token: Cookies.get('token'),
     name: '',
     avatar: '',
     roles: []
@@ -31,9 +31,9 @@ const user = {
       const password = userInfo.password;
       return new Promise((resolve, reject) => {
         login(email, password).then(response => {
-          const data = response.data;
-          Cookies.set('guess', data.token);
-          commit('SET_TOKEN', data.token);
+          const result = response.result;
+          Cookies.set('token', result.token);
+          commit('SET_TOKEN', result.token);
           resolve();
         }).catch(error => {
           reject(error);
@@ -46,11 +46,11 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-          const data = response.data;
-          commit('SET_ROLES', data.role);
-          commit('SET_NAME', data.name);
-          commit('SET_AVATAR', data.avatar);
-          resolve(response);
+          const result = response.result;
+          commit('SET_ROLES', result.roles);
+          commit('SET_NAME', result.username);
+          commit('SET_AVATAR', result.avatar);
+          resolve(result);
         }).catch(error => {
           reject(error);
         });
@@ -63,7 +63,7 @@ const user = {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '');
           commit('SET_ROLES', []);
-          Cookies.remove('guess');
+          Cookies.remove('token');
           resolve();
         }).catch(error => {
           reject(error);
@@ -75,7 +75,7 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '');
-        Cookies.remove('guess');
+        Cookies.remove('token');
         resolve();
       });
     }
