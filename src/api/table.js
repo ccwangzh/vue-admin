@@ -1,11 +1,9 @@
-import fetch from '@/utils/fetch';
+import request from '@/utils/request'
 
 export function getList(params) {
-  return fetch({
+  return request({
     url: '/table/list',
     method: 'get',
     params
-  });
+  })
 }
-
-
